@@ -90,7 +90,7 @@ const Home = () => {
         gap: '20px',
         marginTop: '50px',
         whiteSpace: 'nowrap',  // Prevent wrapping
-        animation: 'scrolling infinite linear infinite',  // Keyframe animation for scrolling
+        animation: 'scrolling 60s linear infinite',  // Keyframe animation for scrolling
     };
 
     const projectCardStyle = {
