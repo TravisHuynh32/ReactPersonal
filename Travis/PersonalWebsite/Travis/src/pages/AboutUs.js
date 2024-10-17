@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
-import Vik from '../assets/vik.png';
-import Shyam from '../assets/shyam.png';
+import Travis from '../assets/Travis.png';
 
 const AboutUsContainer = styled.div`
   font-family: 'Playfair Display', serif;
@@ -27,7 +26,7 @@ const MentorSection = styled.div`
 
 const MentorCard = styled(animated.div)`
   background: #fff;
-  color: #000;
+  color: #000000;
   border-radius: 8px;
   margin: 20px;
   padding: 20px;
@@ -50,12 +49,14 @@ const MentorInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  color: #000000;
 `;
 
 const MentorName = styled.h3`
   margin: 0;
   font-size: 2rem;
   font-family: 'Playfair Display', serif;
+  color: #000000; 
 `;
 
 const MentorDescription = styled.p`
@@ -63,19 +64,15 @@ const MentorDescription = styled.p`
   font-size: 1.2rem;
   line-height: 1.5;
   font-family: 'Playfair Display', serif;
+  color: #000000; 
 `;
 
 const mentors = [
   {
-    name: 'Vikranth Mandadi',
-    description: 'Vikranth is a Computer Science student at the University of Wisconsin - Madison, and is currently an intern at PACCAR. He developed a passion for Computer Science his junior year of high school, and wants to share his passion with others. Vikranth values an environment that teaches on the job skills, provides resources for career development, encourages problem solving and critical thinking in a group setting, and mentorship as he believes these are the pieces for helping students grow.',
-    image: Vik,
-  },
-  {
-    name: 'Shyam Ramesh',
-    description: 'Shyam Ramesh is a Computer Science student at the University of Washington Bothell. Shyam has experience in full stack development while working at a startup and will be interning at Amazon this summer. Shyam values an environment where mentorship is encouraged and practiced as he believes that it fosters growth. In his free time he enjoys playing football, working out and painting.',
-    image: Shyam,
-  },
+    name: 'Travis Huynh',
+    description: 'Im a Computer Science student at the University of Washington Bothell with a passion for software development and data science. Ive previously interned at A* Accelerator, where I gained hands-on experience in the tech startup space. My focus is on leveraging technology to solve real-world problems, and I’m eager to contribute to impactful projects that push the boundaries of innovation. Im always looking to expand my skills in software engineering, data analysis, and full-stack development.',
+    image: Travis,
+  }
 ];
 
 const AboutUs = () => {
@@ -123,7 +120,7 @@ const AboutUs = () => {
 
   return (
     <AboutUsContainer id="about-us-section">
-      <Title style={fadeInTitle}>About Us:</Title>
+      <Title style={fadeInTitle}>About Me!</Title>
       <MentorSection>
         {mentors.map((mentor, index) => {
           const springStyle = index % 2 === 0 ? fadeInLeft : fadeInRight;

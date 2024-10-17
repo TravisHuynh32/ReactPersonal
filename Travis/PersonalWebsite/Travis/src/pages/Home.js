@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; 
-import industryExposureImg from '../assets/industry_exposure.png';
-import companiesImg from '../assets/companies.png';
-import technicalWorkshopsImg from '../assets/technical_workshops.png';
-import uwLogoImg from '../assets/uw_logo.png';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated, useInView } from 'react-spring';
 
 const Home = () => {
 
@@ -62,15 +57,15 @@ const Home = () => {
 
     const sectionContainerStyle = {
         display: 'flex',
-        justifyContent: 'space-around', // This will space items evenly with equal space around them
-        alignItems: 'flex-start', // Aligns items to the start of the flex container
+        justifyContent: 'space-around', 
+        alignItems: 'flex-start', 
         marginTop: '50px',
     };
 
     const sectionItemStyle = {
         textAlign: 'center',
-        width: '200px', // Ensure width is consistent
-        margin: '0 20px', // Optional: for additional spacing
+        width: '200px', 
+        margin: '0 20px', 
     };
 
     const sectionImageStyle = {
@@ -90,19 +85,56 @@ const Home = () => {
         fontFamily: "'Playfair Display', serif",
     };
 
+    const projectsContainerStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '100px',
+        padding: '0 20px',
+    };
+
+    const projectCardStyle = {
+        width: '300px',
+        padding: '20px',
+        backgroundColor: '#f0f0f0',
+        borderRadius: '10px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        marginBottom: '40px',
+    };
+
+    const projectImageStyle = {
+        width: '100%',
+        height: '150px',
+        borderRadius: '10px',
+        objectFit: 'cover',
+        marginBottom: '15px',
+    };
+
+    const projectTitleStyle = {
+        fontSize: '24px',
+        marginBottom: '10px',
+        fontFamily: "'Playfair Display', serif",
+    };
+
+    const projectDescriptionStyle = {
+        fontSize: '16px',
+        color: '#555',
+    };
+
     const [triggerAnimation, setTriggerAnimation] = useState(false);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setLoaded(true);
         const handleScroll = () => {
-            const windowHeight = window.innerHeight
-            const triggerHeight = windowHeight * 0.15
+            const windowHeight = window.innerHeight;
+            const triggerHeight = windowHeight * 0.15;
 
             if (window.scrollY > triggerHeight) {
-                setTriggerAnimation(true)
+                setTriggerAnimation(true);
             }
-        }
+        };
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -112,7 +144,7 @@ const Home = () => {
     const leftSpring = useSpring({
         opacity: triggerAnimation ? 1 : 0,
         transform: triggerAnimation ? 'translateX(0)' : 'translateX(-50px)',
-        config: { duration: 500 }, // Customize duration as needed
+        config: { duration: 500 },
     });
 
     const rightSpring = useSpring({
@@ -124,7 +156,7 @@ const Home = () => {
     const textSlideDown = useSpring({
         opacity: triggerAnimation ? 1 : 0,
         transform: triggerAnimation ? 'translateY(0)' : 'translateY(-20px)',
-        config: { duration: 500 }, // Customize duration as needed
+        config: { duration: 500 },
     });
 
     const lineDraw = useSpring({
@@ -136,21 +168,45 @@ const Home = () => {
     const fadeIn = useSpring({
         opacity: loaded ? 1 : 0,
         transform: loaded ? 'translateY(0)' : 'translateY(20)',
-        config: {duration: 1500},
-    })
+        config: { duration: 1500 },
+    });
+
+    // Projects fade-in animation
+    const [projectsVisible, setProjectsVisible] = useState(false);
+    const handleScrollForProjects = () => {
+        const projectsSection = document.getElementById('projects-section');
+        if (projectsSection) {
+            const rect = projectsSection.getBoundingClientRect();
+            if (rect.top <= window.innerHeight) {
+                setProjectsVisible(true);
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScrollForProjects);
+        return () => {
+            window.removeEventListener('scroll', handleScrollForProjects);
+        };
+    }, []);
+
+    const projectsFadeIn = useSpring({
+        opacity: projectsVisible ? 1 : 0,
+        transform: projectsVisible ? 'translateY(0)' : 'translateY(50px)',
+        config: { duration: 1000 },
+    });
 
     return (
         <div style={containerStyle}>
             <animated.div style={fadeIn}>
-                <div style={titleStyle}>Explore and Accelerate Your Career</div>
+                <div style={titleStyle}>Hi! My name is Travis!</div>
                 <div style={subtitleStyle}>
-                    A-Star Accelerator is an eight week summer program that provides an internship-like experience
-                    while teaching industry level skills in computer science, allowing students to explore and
-                    accelerate their career opportunities.
+                    Constantly seeking new experiences and opportunities to enhance my skill set, I'm driven by a passion for growth. 
+                    I'm eagerly looking forward to the next phase of my professional journey!
                 </div>
                 <div style={buttonContainerStyle}>
                     <a
-                        href="#"
+                        href="https://www.linkedin.com/in/travis-huynh-626973221/"
                         style={buttonStyle}
                         onMouseEnter={(e) => {
                             e.target.style.backgroundColor = buttonHoverStyle.backgroundColor;
@@ -163,10 +219,10 @@ const Home = () => {
                             e.target.style.border = buttonStyle.border;
                         }}
                     >
-                        FILL OUT THE INTEREST FORM
+                        My LinkedIn!
                     </a>
-                    <Link
-                        to="/register"
+                    <a
+                        href="https://github.com/TravisHuynh32"
                         style={buttonStyle}
                         onMouseEnter={(e) => {
                             e.target.style.backgroundColor = buttonHoverStyle.backgroundColor;
@@ -179,82 +235,44 @@ const Home = () => {
                             e.target.style.border = buttonStyle.border;
                         }}
                     >
-                        REGISTER HERE
-                    </Link>
+                        My Github!
+                    </a>
                 </div>
             </animated.div>
             <animated.div style={lineDraw}>
                 <div style={dividerStyle}></div>
             </animated.div>
-            <animated.div style={textSlideDown}>
-                <div style={subtitleStyle}>
-                    We're here to help you grow.
-                </div>
-            </animated.div>
-            <div style={sectionContainerStyle}>
-                <animated.div style={leftSpring}>
-                    <div style={sectionItemStyle}>
+
+            {/* Project Section */}
+            <div id="projects-section" style={projectsContainerStyle}>
+                <animated.div style={projectsFadeIn}>
+                    <div style={projectCardStyle}>
                         <img
-                            src={industryExposureImg} // Replace with your image URL
-                            alt="Industry Exposure"
-                            style={sectionImageStyle}
+                            src="your-image-url"
+                            alt="Project 1"
+                            style={projectImageStyle}
                         />
-                        <div style={sectionTitleStyle}>Industry Exposure</div>
-                        <div style={sectionDescriptionStyle}>
-                            Providing experience in industry practices and technologies to accelerate the career
-                            development
-                            of students.
+                        <div style={projectTitleStyle}>Project 1</div>
+                        <div style={projectDescriptionStyle}>
+                            This is a description of my project. It was built using React, Node.js, and MySQL.
                         </div>
                     </div>
-                </animated.div>
-                <animated.div style={leftSpring}>
-                    <div style={sectionItemStyle}>
+
+                    <div style={projectCardStyle}>
                         <img
-                            src={companiesImg} // Replace with your image URL
-                            alt="Mentorship Events"
-                            style={sectionImageStyle}
+                            src="your-image-url"
+                            alt="Project 2"
+                            style={projectImageStyle}
                         />
-                        <div style={sectionTitleStyle}>Mentorship Events</div>
-                        <div style={sectionDescriptionStyle}>
-                            Our program includes speakers and mentors from top-tech industry professionals at Amazon,
-                            Microsoft, Google and more!
-                        </div>
-                    </div>
-                </animated.div>
-                <animated.div style={rightSpring}>
-                    <div style={sectionItemStyle}>
-                        <img
-                            src={technicalWorkshopsImg} // Replace with your image URL
-                            alt="Technical Workshops"
-                            style={sectionImageStyle}
-                        />
-                        <div style={sectionTitleStyle}>Technical Workshops</div>
-                        <div style={sectionDescriptionStyle}>
-                            Teaching students new and upcoming languages, alongside the backbone technologies of
-                            fullstack
-                            development.
-                        </div>
-                    </div>
-                </animated.div>
-                <animated.div style={rightSpring}>
-                    <div style={sectionItemStyle}>
-                        <img
-                            src={uwLogoImg} // Replace with your image URL
-                            alt="Real Business Case"
-                            style={sectionImageStyle}
-                        />
-                        <div style={sectionTitleStyle}>Real Business Case</div>
-                        <div style={sectionDescriptionStyle}>
-                            We are partnering with UW Bothell to build a mobile app that enhances the access to events
-                            and
-                            reinforces the community bond at the University.
+                        <div style={projectTitleStyle}>Project 2</div>
+                        <div style={projectDescriptionStyle}>
+                            This is another project. It showcases a different set of skills like API integration.
                         </div>
                     </div>
                 </animated.div>
             </div>
         </div>
-);
-
+    );
 }
 
 export default Home;
