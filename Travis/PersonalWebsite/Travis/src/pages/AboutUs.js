@@ -44,6 +44,7 @@ const MentorImage = styled.img`
   object-fit: cover;
 `;
 
+
 const MentorInfo = styled.div`
   display: flex;
   flex-direction: column;

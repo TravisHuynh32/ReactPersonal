@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSpring, animated, useInView } from 'react-spring';
+import { useSpring, animated } from 'react-spring';
 
 const Home = () => {
-
     const containerStyle = {
         textAlign: 'center',
         padding: '50px',
@@ -55,73 +54,6 @@ const Home = () => {
         backgroundColor: '#333333',
     };
 
-    const sectionContainerStyle = {
-        display: 'flex',
-        justifyContent: 'space-around', 
-        alignItems: 'flex-start', 
-        marginTop: '50px',
-    };
-
-    const sectionItemStyle = {
-        textAlign: 'center',
-        width: '200px', 
-        margin: '0 20px', 
-    };
-
-    const sectionImageStyle = {
-        width: '220px',
-        height: '220px',
-        marginBottom: '20px',
-    };
-
-    const sectionTitleStyle = {
-        fontSize: '30px',
-        fontFamily: "'Playfair Display', serif",
-        marginBottom: '10px',
-    };
-
-    const sectionDescriptionStyle = {
-        fontSize: '18px',
-        fontFamily: "'Playfair Display', serif",
-    };
-
-    const projectsContainerStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '100px',
-        padding: '0 20px',
-    };
-
-    const projectCardStyle = {
-        width: '300px',
-        padding: '20px',
-        backgroundColor: '#f0f0f0',
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        marginBottom: '40px',
-    };
-
-    const projectImageStyle = {
-        width: '100%',
-        height: '150px',
-        borderRadius: '10px',
-        objectFit: 'cover',
-        marginBottom: '15px',
-    };
-
-    const projectTitleStyle = {
-        fontSize: '24px',
-        marginBottom: '10px',
-        fontFamily: "'Playfair Display', serif",
-    };
-
-    const projectDescriptionStyle = {
-        fontSize: '16px',
-        color: '#555',
-    };
-
     const [triggerAnimation, setTriggerAnimation] = useState(false);
     const [loaded, setLoaded] = useState(false);
 
@@ -141,22 +73,10 @@ const Home = () => {
         };
     }, []);
 
-    const leftSpring = useSpring({
-        opacity: triggerAnimation ? 1 : 0,
-        transform: triggerAnimation ? 'translateX(0)' : 'translateX(-50px)',
-        config: { duration: 500 },
-    });
-
-    const rightSpring = useSpring({
-        opacity: triggerAnimation ? 1 : 0,
-        transform: triggerAnimation ? 'translateX(0)' : 'translateX(50px)',
-        config: { duration: 500 },
-    });
-
-    const textSlideDown = useSpring({
-        opacity: triggerAnimation ? 1 : 0,
-        transform: triggerAnimation ? 'translateY(0)' : 'translateY(-20px)',
-        config: { duration: 500 },
+    const fadeIn = useSpring({
+        opacity: loaded ? 1 : 0,
+        transform: loaded ? 'translateY(0)' : 'translateY(20px)',
+        config: { duration: 1500 },
     });
 
     const lineDraw = useSpring({
@@ -165,43 +85,83 @@ const Home = () => {
         config: { duration: 1000 },
     });
 
-    const fadeIn = useSpring({
-        opacity: loaded ? 1 : 0,
-        transform: loaded ? 'translateY(0)' : 'translateY(20)',
-        config: { duration: 1500 },
-    });
-
-    // Projects fade-in animation
-    const [projectsVisible, setProjectsVisible] = useState(false);
-    const handleScrollForProjects = () => {
-        const projectsSection = document.getElementById('projects-section');
-        if (projectsSection) {
-            const rect = projectsSection.getBoundingClientRect();
-            if (rect.top <= window.innerHeight) {
-                setProjectsVisible(true);
-            }
-        }
+    const projectContainerStyle = {
+        display: 'flex',
+        gap: '20px',
+        marginTop: '50px',
+        whiteSpace: 'nowrap',  // Prevent wrapping
+        animation: 'scrolling 60s linear infinite',  // Keyframe animation for scrolling
     };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScrollForProjects);
-        return () => {
-            window.removeEventListener('scroll', handleScrollForProjects);
-        };
-    }, []);
+    const projectCardStyle = {
+        flex: '0 0 auto',
+        width: '300px',
+        height: '400px',
+        borderRadius: '10px',
+        backgroundColor: '#ffffff',
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '20px',
+        color: 'black',
+    };
 
-    const projectsFadeIn = useSpring({
-        opacity: projectsVisible ? 1 : 0,
-        transform: projectsVisible ? 'translateY(0)' : 'translateY(50px)',
-        config: { duration: 1000 },
-    });
+    const projectImageStyle = {
+        width: '100%',
+        height: '200px',
+        borderRadius: '10px',
+        objectFit: 'cover',
+    };
+
+    const projectTitleStyle = {
+        fontSize: '30px',
+        fontWeight: 'bold',
+        fontFamily: "'Playfair Display', serif",
+        color: 'black',
+    };
+
+    const projectDescriptionStyle = {
+        fontSize: '20px',
+        fontFamily: "'Playfair Display', serif",
+        color: 'black',
+    };
+
+    // List of projects (you can add more projects here)
+    const projects = [
+        {
+            title: 'Eventify',
+            description: 'UWB Flutter Event Consolidator',
+            imageUrl: 'https://depts.washington.edu/compfin/web/wp-content/uploads/2015/09/UW-logo-512.png',
+        },
+        {
+            title: 'NutriPic',
+            description: 'UWBHacks AI 2024',
+            imageUrl: 'https://uwb-acm.github.io/uwb-hacks24/static/media/cropped_husky.7e5e29cab44c4950fafc.PNG',
+        },
+        {
+            title: 'Personal Portfolio',
+            description: 'React.js Web Application Portfolio',
+            imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSoW3g9hjXIasgon-kpzz-lD9z4SsalyPbZA&s',
+        },
+        {
+            title: 'AnimeDatabase',
+            description: 'Full-Stack Anime Project',
+            imageUrl: 'https://i.redd.it/who-wins-goku-fused-with-entire-fiction-versus-batman-with-v0-55nklqxwdxhd1.jpg?width=1080&format=pjpg&auto=webp&s=c45b1e608325748a74fe7f54cd9e171039976782',
+        },
+        {
+            title: 'Spotify Database',
+            description: 'PHP Database Project',
+            imageUrl: 'https://yt3.googleusercontent.com/vuOdWtsiJ02ciel4pqaheZbl3SJx5uP5xu_xJlAilwFRKsvYjZqHGiIGvZxWKVHIEHvVRhQctrc=s900-c-k-c0x00ffffff-no-rj',
+        },
+    ];
 
     return (
         <div style={containerStyle}>
             <animated.div style={fadeIn}>
                 <div style={titleStyle}>Hi! My name is Travis!</div>
                 <div style={subtitleStyle}>
-                    Constantly seeking new experiences and opportunities to enhance my skill set, I'm driven by a passion for growth. 
+                    Constantly seeking new experiences and opportunities to enhance my skill set, I'm driven by a passion for growth.
                     I'm eagerly looking forward to the next phase of my professional journey!
                 </div>
                 <div style={buttonContainerStyle}>
@@ -243,36 +203,39 @@ const Home = () => {
                 <div style={dividerStyle}></div>
             </animated.div>
 
-            {/* Project Section */}
-            <div id="projects-section" style={projectsContainerStyle}>
-                <animated.div style={projectsFadeIn}>
-                    <div style={projectCardStyle}>
-                        <img
-                            src="your-image-url"
-                            alt="Project 1"
-                            style={projectImageStyle}
-                        />
-                        <div style={projectTitleStyle}>Project 1</div>
-                        <div style={projectDescriptionStyle}>
-                            This is a description of my project. It was built using React, Node.js, and MySQL.
-                        </div>
-                    </div>
+            <h2 style={subtitleStyle}>My Projects</h2>
 
-                    <div style={projectCardStyle}>
+            <div style={projectContainerStyle}>
+                {projects.map((project, index) => (
+                    <div key={index} style={projectCardStyle}>
                         <img
-                            src="your-image-url"
-                            alt="Project 2"
+                            src={project.imageUrl}
+                            alt={project.title}
                             style={projectImageStyle}
                         />
-                        <div style={projectTitleStyle}>Project 2</div>
+                        <div style={projectTitleStyle}>{project.title}</div>
                         <div style={projectDescriptionStyle}>
-                            This is another project. It showcases a different set of skills like API integration.
+                            {project.description}
                         </div>
                     </div>
-                </animated.div>
+                ))}
+                {/* Duplicate the projects to create a looping effect */}
+                {projects.map((project, index) => (
+                    <div key={index + projects.length} style={projectCardStyle}>
+                        <img
+                            src={project.imageUrl}
+                            alt={project.title}
+                            style={projectImageStyle}
+                        />
+                        <div style={projectTitleStyle}>{project.title}</div>
+                        <div style={projectDescriptionStyle}>
+                            {project.description}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
-}
+};
 
 export default Home;
